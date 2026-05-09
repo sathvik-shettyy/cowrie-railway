@@ -2,17 +2,21 @@
 
 set -e
 
-echo "Starting Cowrie + Dashboard..."
+echo "Starting Cowrie (final stable)..."
 
-cd /opt/cowrie
+# FIX PATH ISSUE (THIS WAS YOUR MAIN BUG)
+COWRIE_PATH=/opt/cowrie
 
-# Start Cowrie in background
-./venv/bin/cowrie start &
+# verify venv exists
+ls -la /opt/cowrie/venv/bin || echo "VENV STILL MISSING"
 
-sleep 5
+# start Cowrie properly
+/opt/cowrie/venv/bin/cowrie start &
 
-echo "Cowrie launched"
+sleep 6
 
-# Start Flask (THIS keeps Railway alive)
+echo "Cowrie started"
+
+# start dashboard with correct python (IMPORTANT FIX)
 cd /app
-python dashboard.py
+python3 dashboard.py
