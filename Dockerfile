@@ -3,7 +3,6 @@ FROM python:3.11-slim
 RUN useradd -m cowrieuser
 
 RUN apt-get update && apt-get install -y \
-    git \
     gcc \
     libssl-dev \
     libffi-dev \
@@ -11,31 +10,24 @@ RUN apt-get update && apt-get install -y \
     procps \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /opt
-
-# INSTALL STABLE RELEASE (NOT master branch)
-RUN git clone --depth 1 https://github.com/cowrie/cowrie.git
-
-WORKDIR /opt/cowrie
-
-RUN python3 -m venv cowrie-env
-
-RUN /opt/cowrie/cowrie-env/bin/pip install --upgrade pip
-
-# IMPORTANT FIX: install properly as package
-RUN /opt/cowrie/cowrie-env/bin/pip install .
-
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir flask
+# create venv in app (simpler + stable)
+RUN python3 -m venv venv
+
+RUN ./venv/bin/pip install --upgrade pip
+
+# install cowrie directly (IMPORTANT FIX)
+RUN ./venv/bin/pip install cowrie
+
+# flask dashboard
+RUN ./venv/bin/pip install flask
 
 COPY dashboard.py .
 COPY start.sh .
-
 COPY cowrie /opt/cowrie/etc
 
-RUN chown -R cowrieuser:cowrieuser /opt/cowrie /app
+RUN chmod +x start.sh
 
 USER cowrieuser
 
