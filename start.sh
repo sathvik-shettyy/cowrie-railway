@@ -2,17 +2,18 @@
 
 set -e
 
-echo "Starting Cowrie (Twisted correct mode)..."
+echo "Starting services..."
 
 cd /opt/cowrie
 
-# THIS is the ONLY reliable launcher in your setup
-./venv/bin/twistd -n cowrie &
+# START COWRIE ON 2222 (SSH)
+./venv/bin/cowrie start &
 
 sleep 5
 
-echo "Cowrie started"
+echo "Cowrie should now be running on 2222"
 
+# START DASHBOARD ON 8080 (NOT 2222)
 cd /app
 
-python3 dashboard.py
+python dashboard.py --port 8080
