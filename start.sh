@@ -2,18 +2,18 @@
 
 set -e
 
-echo "Starting services..."
+echo "Starting Cowrie correctly..."
 
 cd /opt/cowrie
 
-# START COWRIE ON 2222 (SSH)
-./venv/bin/cowrie start &
+# IMPORTANT: use correct venv binary
+./venv/bin/twistd -n cowrie &
 
-sleep 5
+sleep 8
 
-echo "Cowrie should now be running on 2222"
+echo "Checking if port 2222 is open..."
+ss -tuln || netstat -tuln || true
 
-# START DASHBOARD ON 8080 (NOT 2222)
+echo "Starting dashboard..."
 cd /app
-
-python dashboard.py --port 8080
+python dashboard.py
