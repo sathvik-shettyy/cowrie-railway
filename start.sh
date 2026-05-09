@@ -11,16 +11,17 @@ mkdir -p var/log/cowrie
 
 export COWRIE_HOME=/opt/cowrie
 
-# activate venv properly
 source /opt/cowrie/cowrie-env/bin/activate
 
-# start cowrie correctly using bin wrapper (it exists after install .)
-/opt/cowrie/cowrie-env/bin/cowrie start
+# IMPORTANT: use twisted runner (correct Cowrie runtime)
+twistd -n cowrie &
 
 sleep 5
 
-echo "Cowrie should now be running"
+echo "Cowrie status:"
+ps aux | grep cowrie || true
 
 echo "Starting dashboard..."
+
 cd /app
 python3 dashboard.py
