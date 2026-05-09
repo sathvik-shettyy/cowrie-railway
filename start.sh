@@ -2,21 +2,18 @@
 
 set -e
 
-echo "Starting Cowrie (final stable)..."
+echo "Starting Cowrie (Railway stable mode)..."
 
-# FIX PATH ISSUE (THIS WAS YOUR MAIN BUG)
-COWRIE_PATH=/opt/cowrie
+cd /opt/cowrie
 
-# verify venv exists
-ls -la /opt/cowrie/venv/bin || echo "VENV STILL MISSING"
-
-# start Cowrie properly
-/opt/cowrie/venv/bin/cowrie start &
+# IMPORTANT: run Cowrie using module, NOT broken binary path
+python3 -m cowrie start &
 
 sleep 6
 
 echo "Cowrie started"
 
-# start dashboard with correct python (IMPORTANT FIX)
 cd /app
+
+# Flask must bind to Railway PORT
 python3 dashboard.py
