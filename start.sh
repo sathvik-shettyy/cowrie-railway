@@ -4,24 +4,17 @@ set -e
 
 echo "Starting Cowrie..."
 
-cd /opt/cowrie
+export PATH=/app/venv/bin:$PATH
 
-mkdir -p var/lib/cowrie
-mkdir -p var/log/cowrie
+mkdir -p /app/logs
 
-export COWRIE_HOME=/opt/cowrie
-
-source /opt/cowrie/cowrie-env/bin/activate
-
-# START USING COWRIE BINARY (this is correct after pip install .)
-bin/cowrie start
+# start cowrie directly (THIS IS THE FIX)
+cowrie start &
 
 sleep 5
 
-echo "Cowrie process check:"
+echo "Checking Cowrie process..."
 ps aux | grep cowrie || true
 
 echo "Starting dashboard..."
-cd /app
-
-python3 dashboard.py
+python dashboard.py
