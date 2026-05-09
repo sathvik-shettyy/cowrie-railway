@@ -2,12 +2,12 @@
 
 set -e
 
-echo "Starting Cowrie (correct mode)..."
+echo "Starting Cowrie (Twisted correct mode)..."
 
 cd /opt/cowrie
 
-# THIS IS THE ONLY VALID WAY
-./bin/cowrie start &
+# THIS is the ONLY reliable launcher in your setup
+./venv/bin/twistd -n cowrie &
 
 sleep 5
 
