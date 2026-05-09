@@ -2,17 +2,20 @@
 
 set -e
 
-echo "Starting Cowrie correctly..."
+echo "Starting Cowrie (corrected)..."
 
 cd /opt/cowrie
 
-# IMPORTANT: use correct venv binary
-./venv/bin/twistd -n cowrie &
+# VERIFY venv exists
+ls -la venv/bin || echo "VENV MISSING"
+
+# START COWRIE PROPERLY
+./venv/bin/cowrie start &
 
 sleep 8
 
-echo "Checking if port 2222 is open..."
-ss -tuln || netstat -tuln || true
+echo "Checking if Cowrie is running..."
+ps aux || true
 
 echo "Starting dashboard..."
 cd /app
