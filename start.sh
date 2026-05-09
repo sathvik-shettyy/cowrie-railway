@@ -6,19 +6,21 @@ echo "Starting Cowrie..."
 
 export PATH=/app/venv/bin:$PATH
 
-# Use ONLY writable filesystem on Railway
-export COWRIE_LOG_DIR=/tmp/cowrie-logs
-export COWRIE_VAR_DIR=/tmp/cowrie-var
+# FORCE ALL RUNTIME PATHS TO /tmp (CRITICAL FIX)
+export COWRIE_HOME=/tmp/cowrie
+export COWRIE_VAR=/tmp/cowrie/var
+export COWRIE_LOG=/tmp/cowrie/log
+export PYTHONPATH=/app/venv/lib/python3.11/site-packages
 
-mkdir -p /tmp/cowrie-logs
-mkdir -p /tmp/cowrie-var
+mkdir -p /tmp/cowrie/var
+mkdir -p /tmp/cowrie/log
 
-# start Cowrie (safe mode)
+# start Cowrie
 cowrie start &
 
-sleep 5
+sleep 8
 
-echo "Cowrie status check:"
+echo "Cowrie process check:"
 ps aux | grep cowrie || true
 
 echo "Starting dashboard..."
