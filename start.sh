@@ -13,15 +13,15 @@ export COWRIE_HOME=/opt/cowrie
 
 source /opt/cowrie/cowrie-env/bin/activate
 
-# IMPORTANT: use twisted runner (correct Cowrie runtime)
-twistd -n cowrie &
+# START USING COWRIE BINARY (this is correct after pip install .)
+bin/cowrie start
 
 sleep 5
 
-echo "Cowrie status:"
+echo "Cowrie process check:"
 ps aux | grep cowrie || true
 
 echo "Starting dashboard..."
-
 cd /app
+
 python3 dashboard.py
