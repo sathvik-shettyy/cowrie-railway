@@ -4,24 +4,21 @@ set -e
 
 echo "Starting Cowrie..."
 
-export PATH=/app/venv/bin:$PATH
+export PATH=/opt/cowrie/venv/bin:$PATH
 
-# FORCE ALL RUNTIME PATHS TO /tmp (CRITICAL FIX)
-export COWRIE_HOME=/tmp/cowrie
-export COWRIE_VAR=/tmp/cowrie/var
-export COWRIE_LOG=/tmp/cowrie/log
-export PYTHONPATH=/app/venv/lib/python3.11/site-packages
+cd /opt/cowrie
 
-mkdir -p /tmp/cowrie/var
-mkdir -p /tmp/cowrie/log
+mkdir -p var/lib/cowrie
+mkdir -p var/log/cowrie
 
-# start Cowrie
-cowrie start &
+# IMPORTANT: use official entrypoint
+./venv/bin/python -m cowrie start &
 
-sleep 8
+sleep 6
 
 echo "Cowrie process check:"
-ps aux | grep cowrie || true
+ps aux || true
 
 echo "Starting dashboard..."
+cd /app
 python dashboard.py
