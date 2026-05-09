@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /opt
 
-RUN git clone https://github.com/cowrie/cowrie.git
+RUN git clone --depth 1 https://github.com/cowrie/cowrie.git
 
 WORKDIR /opt/cowrie
 
@@ -19,7 +19,7 @@ RUN python3 -m venv cowrie-env
 
 RUN /opt/cowrie/cowrie-env/bin/pip install --upgrade pip
 
-RUN /opt/cowrie/cowrie-env/bin/pip install -r requirements.txt
+RUN /opt/cowrie/cowrie-env/bin/pip install .
 
 COPY cowrie/cowrie.cfg /opt/cowrie/etc/cowrie.cfg
 COPY cowrie/userdb.txt /opt/cowrie/etc/userdb.txt
