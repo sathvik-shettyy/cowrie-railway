@@ -9,9 +9,7 @@ mkdir -p var/log/cowrie
 
 touch var/log/cowrie/cowrie.json
 
-. cowrie-env/bin/activate
-
-bin/cowrie start
+/opt/cowrie/cowrie-env/bin/python -m cowrie start
 
 echo "Cowrie started"
 
@@ -19,4 +17,4 @@ cd /app
 
 echo "Starting dashboard..."
 
-python dashboard.py
+python3 dashboard.py
