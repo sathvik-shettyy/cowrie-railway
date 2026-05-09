@@ -1,15 +1,30 @@
-FROM cowrie/cowrie:latest
+FROM python:3.11-slim
 
-USER root
+RUN useradd -m cowrie
 
-# add flask for dashboard only
+RUN apt-get update && apt-get install -y \
+    git gcc libssl-dev libffi-dev build-essential procps net-tools \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /opt
+
+RUN git clone https://github.com/cowrie/cowrie.git
+
+WORKDIR /opt/cowrie
+
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 RUN pip install flask
 
 WORKDIR /app
 
 COPY dashboard.py .
-COPY cowrie /etc/cowrie
+COPY start.sh .
+
+RUN chmod +x start.sh
+
+USER cowrie
 
 EXPOSE 2222 2223 8080
 
-CMD ["cowrie", "start"]
+CMD ["bash", "./start.sh"]
