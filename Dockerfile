@@ -12,9 +12,12 @@ RUN git clone https://github.com/cowrie/cowrie.git
 
 WORKDIR /opt/cowrie
 
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-RUN pip install flask
+# IMPORTANT FIX: create venv properly (you never did this reliably)
+RUN python3 -m venv venv
+
+RUN ./venv/bin/pip install --upgrade pip
+RUN ./venv/bin/pip install -r requirements.txt
+RUN ./venv/bin/pip install flask
 
 WORKDIR /app
 
@@ -25,6 +28,6 @@ RUN chmod +x start.sh
 
 USER cowrie
 
-EXPOSE 2222 2223 8080
+EXPOSE 2222 8080
 
 CMD ["bash", "./start.sh"]
