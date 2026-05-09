@@ -2,22 +2,19 @@
 
 set -e
 
-echo "Starting Cowrie..."
-
-export PATH=/opt/cowrie/venv/bin:$PATH
+echo "Starting Cowrie (stable mode)..."
 
 cd /opt/cowrie
 
-mkdir -p var/lib/cowrie
-mkdir -p var/log/cowrie
+export PYTHONPATH=/opt/cowrie
 
-# IMPORTANT: use official entrypoint
-./venv/bin/python -m cowrie start &
+# IMPORTANT: run Cowrie via twistd application file
+./venv/bin/twistd -n cowrie &
 
-sleep 6
+sleep 8
 
-echo "Cowrie process check:"
-ps aux || true
+echo "Checking port 2222..."
+netstat -tulpn || true
 
 echo "Starting dashboard..."
 cd /app
