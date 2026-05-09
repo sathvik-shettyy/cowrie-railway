@@ -1,27 +1,25 @@
 FROM python:3.11-slim
 
-RUN useradd -m cowrieuser
+RUN useradd -m cowrie
 
 RUN apt-get update && apt-get install -y \
-    gcc \
-    libssl-dev \
-    libffi-dev \
-    build-essential \
-    procps \
+    git gcc libssl-dev libffi-dev build-essential procps \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app
+WORKDIR /opt
 
-# create venv in app (simpler + stable)
+# Install Cowrie cleanly
+RUN git clone https://github.com/cowrie/cowrie.git
+
+WORKDIR /opt/cowrie
+
 RUN python3 -m venv venv
-
 RUN ./venv/bin/pip install --upgrade pip
+RUN ./venv/bin/pip install -r requirements.txt
 
-# install cowrie directly (IMPORTANT FIX)
-RUN ./venv/bin/pip install cowrie
-
-# flask dashboard
 RUN ./venv/bin/pip install flask
+
+WORKDIR /app
 
 COPY dashboard.py .
 COPY start.sh .
@@ -29,7 +27,7 @@ COPY cowrie /opt/cowrie/etc
 
 RUN chmod +x start.sh
 
-USER cowrieuser
+USER cowrie
 
 EXPOSE 2222 2223 8080
 
