@@ -2,21 +2,17 @@
 
 set -e
 
-echo "Starting Cowrie (corrected)..."
+echo "Starting Cowrie + Dashboard..."
 
 cd /opt/cowrie
 
-# VERIFY venv exists
-ls -la venv/bin || echo "VENV MISSING"
-
-# START COWRIE PROPERLY
+# Start Cowrie in background
 ./venv/bin/cowrie start &
 
-sleep 8
+sleep 5
 
-echo "Checking if Cowrie is running..."
-ps aux || true
+echo "Cowrie launched"
 
-echo "Starting dashboard..."
+# Start Flask (THIS keeps Railway alive)
 cd /app
 python dashboard.py
