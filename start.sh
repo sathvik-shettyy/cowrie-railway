@@ -2,18 +2,18 @@
 
 set -e
 
-echo "Starting Cowrie (diagnostic mode)..."
+echo "Starting services..."
 
-cd /opt/cowrie || cd /app || exit 1
+cd /opt/cowrie
 
-# show structure so we know what exists
-ls -la
+# START COWRIE ON 2222 (SSH)
+./venv/bin/cowrie start &
 
-# run Cowrie using direct twisted application file (MOST STABLE PATH)
-if [ -f cowrie.tac ]; then
-    echo "Found cowrie.tac, starting..."
-    twistd -n -y cowrie.tac
-else
-    echo "cowrie.tac NOT FOUND - Cowrie not installed correctly"
-    sleep 3600
-fi
+sleep 5
+
+echo "Cowrie should now be running on 2222"
+
+# START DASHBOARD ON 8080 (NOT 2222)
+cd /app
+
+python dashboard.py --port 8080
