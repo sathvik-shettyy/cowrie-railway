@@ -1,1 +1,9 @@
-
+root:x:*
+admin:x:*
+ubuntu:x:*
+user:x:*
+test:x:*
+oracle:x:*
+git:x:*
+mysql:x:*
+postgres:x:*
