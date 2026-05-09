@@ -8,17 +8,16 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /opt
 
-# install Cowrie properly
 RUN git clone https://github.com/cowrie/cowrie.git
 
 WORKDIR /opt/cowrie
 
-# IMPORTANT: create venv INSIDE correct directory
-RUN python3 -m venv /opt/cowrie/venv
+# IMPORTANT: DO NOT USE VENV ANYMORE
+RUN pip3 install --upgrade pip
+RUN pip3 install -r requirements.txt
+RUN pip3 install flask
 
-RUN /opt/cowrie/venv/bin/pip install --upgrade pip
-RUN /opt/cowrie/venv/bin/pip install -r requirements.txt
-RUN /opt/cowrie/venv/bin/pip install flask
+RUN chmod +x bin/cowrie || true
 
 WORKDIR /app
 
