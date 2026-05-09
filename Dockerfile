@@ -15,11 +15,11 @@ RUN git clone https://github.com/cowrie/cowrie.git
 
 WORKDIR /opt/cowrie
 
-RUN python -m venv cowrie-env
+RUN python3 -m venv cowrie-env
 
-RUN . cowrie-env/bin/activate && \
-    pip install --upgrade pip && \
-    pip install -r requirements.txt
+RUN /opt/cowrie/cowrie-env/bin/pip install --upgrade pip
+
+RUN /opt/cowrie/cowrie-env/bin/pip install -r requirements.txt
 
 COPY cowrie/cowrie.cfg /opt/cowrie/etc/cowrie.cfg
 COPY cowrie/userdb.txt /opt/cowrie/etc/userdb.txt
@@ -27,7 +27,8 @@ COPY cowrie/userdb.txt /opt/cowrie/etc/userdb.txt
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY dashboard.py .
 COPY start.sh .
@@ -38,4 +39,4 @@ EXPOSE 2222
 EXPOSE 2223
 EXPOSE 8080
 
-CMD ["./start.sh"]
+CMD ["bash", "./start.sh"]
