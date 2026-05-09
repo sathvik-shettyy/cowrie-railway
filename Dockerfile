@@ -12,12 +12,11 @@ RUN git clone https://github.com/cowrie/cowrie.git
 
 WORKDIR /opt/cowrie
 
-# IMPORTANT: DO NOT USE VENV ANYMORE
-RUN pip3 install --upgrade pip
-RUN pip3 install -r requirements.txt
-RUN pip3 install flask
+RUN python3 -m venv venv
 
-RUN chmod +x bin/cowrie || true
+RUN ./venv/bin/pip install --upgrade pip
+RUN ./venv/bin/pip install -r requirements.txt
+RUN ./venv/bin/pip install flask
 
 WORKDIR /app
 
