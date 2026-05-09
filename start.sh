@@ -2,21 +2,18 @@
 
 set -e
 
-echo "Starting Cowrie stable runtime..."
+echo "Starting Cowrie (safe mode)..."
 
 cd /opt/cowrie
 
-export PYTHONPATH=/opt/cowrie
-
-# DO NOT use cowrie CLI at all
-# directly run twisted application
-./venv/bin/twistd -n -y cowrie.tac &
+# IMPORTANT: use direct python entry (NOT twistd, NOT CLI)
+python3 src/cowrie start &
 
 sleep 10
 
-echo "Checking listening ports..."
-ss -tuln || netstat -tuln || true
+echo "Checking processes..."
+ps aux || true
 
 echo "Starting dashboard..."
 cd /app
-python dashboard.py
+python3 dashboard.py
