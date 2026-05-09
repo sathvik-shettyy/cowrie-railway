@@ -2,18 +2,17 @@
 
 set -e
 
-echo "Starting Cowrie (Railway stable mode)..."
+echo "Starting Cowrie (correct mode)..."
 
 cd /opt/cowrie
 
-# IMPORTANT: run Cowrie using module, NOT broken binary path
-python3 -m cowrie start &
+# THIS IS THE ONLY VALID WAY
+./bin/cowrie start &
 
-sleep 6
+sleep 5
 
 echo "Cowrie started"
 
 cd /app
 
-# Flask must bind to Railway PORT
 python3 dashboard.py
