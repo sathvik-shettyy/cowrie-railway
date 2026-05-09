@@ -11,9 +11,7 @@ mkdir -p var/log/cowrie
 
 touch var/log/cowrie/cowrie.json
 
-chmod +x bin/cowrie
-
-nohup bin/cowrie start > cowrie.log 2>&1 &
+nohup /opt/cowrie/cowrie-env/bin/cowrie start > cowrie.log 2>&1 &
 
 sleep 10
 
